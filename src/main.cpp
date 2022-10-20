@@ -11,6 +11,8 @@
 
 #include "utils.h"
 
+#include "MatlabHelpers.h"
+
 using namespace geometrycentral;
 using namespace geometrycentral::surface;
 

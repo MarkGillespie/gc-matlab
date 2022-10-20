@@ -24,7 +24,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STR
   # using Clang (linux or apple) or GCC
   message("Using clang/gcc compiler flags")
   SET(BASE_CXX_FLAGS "-std=c++11 -Wall -Wextra -Werror -g3")
-  SET(DISABLED_WARNINGS " -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wno-deprecated-declarations -Wno-missing-braces -Wno-unused-private-field -Wno-deprecated-copy -Wno-unknown-warning-option -Wno-unused-but-set-parameter -Wno-unused-but-set-variable")
+  SET(DISABLED_WARNINGS " -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wno-deprecated-declarations -Wno-missing-braces -Wno-unused-private-field -Wno-deprecated-copy -Wno-unknown-warning-option -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-ignored-qualifiers")
   SET(TRACE_INCLUDES " -H -Wno-error=unused-command-line-argument")
 
   if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
@@ -34,7 +34,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STR
   elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     message("Setting gcc-specific options")
     SET(BASE_CXX_FLAGS "${BASE_CXX_FLAGS} -fmax-errors=5")
-    SET(DISABLED_WARNINGS "${DISABLED_WARNINGS} -Wno-maybe-uninitialized -Wno-format-zero-length -Wno-unused-but-set-parameter -Wno-unused-but-set-variable")
+    SET(DISABLED_WARNINGS "${DISABLED_WARNINGS} -Wno-maybe-uninitialized -Wno-format-zero-length -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-ignored-qualifiers")
   endif()
   
   SET(CMAKE_CXX_FLAGS "${BASE_CXX_FLAGS} ${DISABLED_WARNINGS}")
@@ -64,4 +64,10 @@ endif()
 # == Deps
 add_subdirectory(deps/geometry-central)
 add_subdirectory(deps/polyscope)
+
+# Matlab
+# https://www.mathworks.com/matlabcentral/answers/472865-calling-matlab-functions-from-c-application-built-with-cmake-in-visual-studio
+FIND_PACKAGE(Matlab REQUIRED)
+INCLUDE_DIRECTORIES("${Matlab_ROOT_DIR}/extern/include")
+
 add_subdirectory(src)
